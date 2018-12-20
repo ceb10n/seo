@@ -5,7 +5,8 @@ from distutils.core import setup
 
 setup(
     name='seo',
-    version='0.0.3dev',
+    version='0.0.4dev',
+    url='https://github.com/ceb10n/seo',
     project_urls=OrderedDict((
         ('Code', 'https://github.com/ceb10n/seo'),
     )),
