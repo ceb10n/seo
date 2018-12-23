@@ -27,8 +27,66 @@ class Browser:
     def __init__(self, use_live=False):
         self.browsers = []
 
+        # use static user agents unless `use_live` is `True`
         self._load_live_browsers() if use_live else self._load_browsers()
         self._browser_count = len(self.browsers)
+
+    def get_rand_useragent(self):
+        """Return a string with a random useragent.
+
+        Example::
+            browser = Browser()
+            useragent = browser.get_rand_useragent()
+            useragent
+            'Opera/9.80 (X11; Linux i686; Ubuntu/14.10) Presto/2.12.388 Version/12.16'
+
+        """
+        index = random.randint(0, self._browser_count)
+
+        return self.browsers[index][1]
+
+    def get_fake_headers(self, useragent=None):
+        """Return a dict containing header informations.
+
+        If a useragent is not informed, it will use a random one
+        returned by get_rand_useragent.
+
+        Example::
+            browser = Browser()
+            headers = browsers.get_fake_headers()
+            headers
+            {
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+                "Accept-Encoding": "gzip, deflate",
+                "Accept-Language": "en-US,en;q=0.9,ms;q=0.8,te;q=0.7",
+                "Cache-Control": "max-age=0",
+                "Content-Type": "application/x-www-form-urlencoded",
+                'User-Agent': "Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0"}
+
+        Args:
+            useragent (str): The user-agent header used in request
+
+        Returns:
+            A dict containing:
+                * Accept
+                * Accept-Encoding
+                * Accept-Language
+                * Cache-Control
+                * Content-Type
+                * User-Agent
+        """
+
+        if not useragent:
+            # get a random useragent to return in fake headers
+            useragent = self.get_rand_useragent()
+
+        return {
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8", # noqa
+            "Accept-Encoding": "gzip, deflate",
+            "Accept-Language": "en-US,en;q=0.9,ms;q=0.8,te;q=0.7",
+            "Cache-Control": "max-age=0",
+            "Content-Type": "application/x-www-form-urlencoded",
+            'User-Agent': useragent}
 
     def _load_live_browsers(self):
         from fake_useragent import UserAgent
@@ -77,61 +135,3 @@ class Browser:
             ['Safari 5.1.3', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/534.55.3 (KHTML, like Gecko) Version/5.1.3 Safari/534.53.10'], # noqa
             ['Safari 5.1', 'Mozilla/5.0 (iPad; CPU OS 5_1 like Mac OS X) AppleWebKit/534.46 (KHTML, like Gecko ) Version/5.1 Mobile/9B176 Safari/7534.48.3'] # noqa
         ]
-
-    def get_rand_useragent(self):
-        """Return a string with a random useragent.
-
-        Example::
-            browser = Browser()
-            useragent = browser.get_rand_useragent()
-            useragent
-            'Opera/9.80 (X11; Linux i686; Ubuntu/14.10) Presto/2.12.388 Version/12.16'
-
-        """
-        index = random.randint(0, self._browser_count)
-
-        return self.browsers[index][1]
-
-
-    def get_fake_headers(self, useragent=None):
-        """Return a dict containing header informations.
-
-        If a useragent is not informed, it will use a random one
-        returned by get_rand_useragent.
-
-        Example::
-            browser = Browser()
-            headers = browsers.get_fake_headers()
-            headers
-            {
-                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-                "Accept-Encoding": "gzip, deflate",
-                "Accept-Language": "en-US,en;q=0.9,ms;q=0.8,te;q=0.7",
-                "Cache-Control": "max-age=0",
-                "Content-Type": "application/x-www-form-urlencoded",
-                'User-Agent': "Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0"}
-
-        Args:
-            useragent (str): The user-agent header used in request
-
-        Returns:
-            A dict containing:
-                * Accept
-                * Accept-Encoding
-                * Accept-Language
-                * Cache-Control
-                * Content-Type
-                * User-Agent
-        """
-
-        if not useragent:
-            # get a random useragent to return in fake headers
-            useragent = self.get_rand_useragent()
-
-        return {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8", # noqa
-            "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "en-US,en;q=0.9,ms;q=0.8,te;q=0.7",
-            "Cache-Control": "max-age=0",
-            "Content-Type": "application/x-www-form-urlencoded",
-            'User-Agent': useragent}
