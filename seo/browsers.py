@@ -8,6 +8,7 @@ class Browser:
 
     def __init__(self):
         self.browsers = []
+        
         self._load_browsers()
         self._browser_count = len(self.browsers)
 
@@ -51,6 +52,15 @@ class Browser:
         ]
 
     def get_rand_useragent(self):
+        """Return a string with a random useragent.
+
+        Example::
+            browser = Browser()
+            useragent = browser.get_rand_useragent()
+            useragent
+            'Opera/9.80 (X11; Linux i686; Ubuntu/14.10) Presto/2.12.388 Version/12.16'
+
+        """
         index = random.randint(0, self._browser_count)
 
         return self.browsers[index][1]
@@ -61,6 +71,18 @@ class Browser:
 
         If a useragent is not informed, it will use a random one
         returned by get_rand_useragent.
+
+        Example::
+            browser = Browser()
+            headers = browsers.get_fake_headers()
+            headers
+            {
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+                "Accept-Encoding": "gzip, deflate",
+                "Accept-Language": "en-US,en;q=0.9,ms;q=0.8,te;q=0.7",
+                "Cache-Control": "max-age=0",
+                "Content-Type": "application/x-www-form-urlencoded",
+                'User-Agent': "Mozilla/5.0 (X11; Linux i686; rv:64.0) Gecko/20100101 Firefox/64.0"}
 
         Args:
             useragent (str): The user-agent header used in request
