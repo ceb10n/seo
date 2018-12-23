@@ -48,11 +48,30 @@ def get_rand_useragent():
     return _browsers[index][1]
 
 
-def get_fake_headers():
+def get_fake_headers(useragent=None):
+    """Return a dict containing header informations.
+    
+    Args:
+        useragent (str): The user-agent header used in request
+
+    Returns:
+        A dict containing:
+            * Accept
+            * Accept-Encoding
+            * Accept-Language
+            * Cache-Control
+            * Content-Type
+            * User-Agent
+    """
+
+    if not useragent:
+        # get a random useragent to return in fake headers
+        useragent = get_rand_useragent()
+
     return {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8", # noqa
         "Accept-Encoding": "gzip, deflate",
         "Accept-Language": "en-US,en;q=0.9,ms;q=0.8,te;q=0.7",
         "Cache-Control": "max-age=0",
         "Content-Type": "application/x-www-form-urlencoded",
-        'User-Agent': get_rand_useragent()}
+        'User-Agent': useragent}
