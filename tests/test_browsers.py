@@ -4,6 +4,7 @@ from seo.browsers import Browser
 def test_get_rand_useragent():
     browser = Browser()
     random_browser = browser.get_rand_useragent()
+    
     assert random_browser is not None
 
 
