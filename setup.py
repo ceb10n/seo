@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from collections import OrderedDict
-from distutils.core import setup
+from setuptools import setup
 
 
 setup(
@@ -21,4 +21,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     platforms='any',
+    install_requires=[
+        'fake-useragent>=0.1.11',
+    ],
 )

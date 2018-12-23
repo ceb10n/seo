@@ -5,12 +5,39 @@ import random
 
 
 class Browser:
+    """The Browser class gives you common seo utils about Browser stuff
 
-    def __init__(self):
+    It can use a static list containing common user agent headers, like 
+    firefox, google chrome, internet explorer, etc., or it can use a live
+    version scraped from useragentstring.com.
+
+    If the live version is needed, it is as simple as passing this information
+    when creating a browser objetct.
+
+    Example::
+        browser = Browser(user_live=True)
+
+    If you don't want to fetch data from thid party sites, just don't pass
+    anything.
+
+    Example::
+        browser = Browser()
+    """
+
+    def __init__(self, use_live=False):
         self.browsers = []
-        
-        self._load_browsers()
+
+        self._load_live_browsers() if use_live else self._load_browsers()
         self._browser_count = len(self.browsers)
+
+    def _load_live_browsers(self):
+        from fake_useragent import UserAgent
+
+        ua = UserAgent
+
+        for browser, useragents in ua.data_browsers:
+            for useragent in useragents:
+                self.browsers.append(browser, useragent)
 
     def _load_browsers(self):
         self.browsers = [
