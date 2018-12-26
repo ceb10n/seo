@@ -12,7 +12,7 @@ class Browser:
     version scraped from useragentstring.com.
 
     If the live version is needed, it is as simple as passing this information
-    when creating a browser objetct.
+    when creating a browser object.
 
     Example::
         browser = Browser(user_live=True)
@@ -22,6 +22,9 @@ class Browser:
 
     Example::
         browser = Browser()
+
+    Attributes:
+        use_live (bool): If you want use live browser data or a static list
     """
 
     def __init__(self, use_live=False):
